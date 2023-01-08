@@ -30,7 +30,7 @@ export smpfrq=$2;
 export dtrtn=$3;
 
 # directory definations
-basdir=/pgBACKUP/nmondata;
+basdir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )";
 export basdir;
 hrdir=${basdir}/rawdata;
 export hrdir;
@@ -57,7 +57,7 @@ nmon -f -tT -s${smpfrq} -c${numsmp};
 mergefile ()
 {
 cd ${daydir};
-for i in $(find ${hrdir} -maxdepth 2 -name '*.nmon' -print)
+for i in $(find ${hrdir}/${hstip}/ -maxdepth 1 -name '*.nmon' -print)
 do
     dy=$(echo ${i}|cut -d '_' -f 2);
     if ! [ -f ./${hstip}_${dy}.nmon ]; then
@@ -116,11 +116,15 @@ inm=$(nmcli device status|grep -Ev "lo|DEVICE"|awk '{print $1}');
 hstip=$(/usr/sbin/ip a|grep ${inm}|grep inet|awk '{print $2}'|cut -d '/' -f 1);
 export hstip;
 
+# let us merge files which were already generated
+
+echo "merging files:";
+mergefile;
+
 # let us process the nmon output files here
 
 if [[ "${instyp}" == "MASTER" ]]; then
 echo "Merging nmon files";
-mergefile;
 genhtml;
 filemaintain;
 fi
