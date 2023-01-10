@@ -12,7 +12,7 @@ The nmon datacollect needs the following setup...
     - nmondatacollect_v1.ksh - nmon script collecting the data
 
 2) List of binaries needed:
-You should have nmcli, ksh, nmon, nmonmerge, nmonchart binaries available
+You should have nmcli, ksh, nmon, nmonmerge, nmonchart,nfs-utils binaries available
 
 3) Cron entry as like below..
 
@@ -30,7 +30,7 @@ On the nmon CLIENT:
 
 1) Get the <nmonbase> directory remote mounted. If needed grant 777 permission to all the directory in the nmonbase.
 
-2) Install ksh,nmcli,nmon binary alone in the client server.
+2) Install ksh,nmcli,nmon,nfs-utils binary alone in the client server.
 
 3) Create the below directory 
 
@@ -38,7 +38,8 @@ On the nmon CLIENT:
 
 3) Schedule the cron
 
-*/5 * * * * /mnt/nmonclient/nmondata/nmondatacollect_v1.ksh CLIENT 30 >/pgBACKUP/nmondata/nmondatacollect_v1_10.0.2.9.out 2>&1
+*/5 * * * * /mnt/nmonclient/nmondata/nmondatacollect_v1.ksh CLIENT 30 >/mnt/nmonclient/nmondata/nmondatacollect_v1_<clientip>.out 2>&1  
 
-4) Now the data should be populated and in 5 mins time you should see data available in the chart.
+4) Now the data should be populated and in 5 mins time you should see data available in the chart after 10 mins.
+
 
