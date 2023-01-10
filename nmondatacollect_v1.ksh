@@ -124,7 +124,7 @@ mergefile;
 # let us process the nmon output files here
 
 if [[ "${instyp}" == "MASTER" ]]; then
-echo "Merging nmon files";
+echo "Generate HTML files";
 genhtml;
 filemaintain;
 fi
